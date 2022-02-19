@@ -11,7 +11,7 @@ typedef struct triangle
 
 int input_n();
 void input_n_triangles();
-void find_areas();
+void find_areas_n();
 Triangle find_smallest_triangle();
 void output();
 
@@ -22,6 +22,7 @@ int main()
     int n = input_n();
     Triangle t[n];
     input_n_triangles(n,t);
+    find_areas_n(n,t);
     Triangle smol = find_smallest_triangle(n,t);
     output(n,t,smol);
     return 0;
@@ -53,27 +54,26 @@ void input_n_triangles(int n, Triangle t[n])
 
 /*-----------------------------------------------------*/
 
+void find_areas_n(int n, Triangle t[n])
+{
+  for (int  i = 0; i < n; i++)
+  {
+     
+     t[i].area = 0.5*((t[i].base)*(t[i].altitude));
+  }
+}
+
+/*-----------------------------------------------------*/
+
 Triangle find_smallest_triangle(int n, Triangle t[n])
 {
     Triangle smol;
-    for (int i = 0; i < n; i++)
+    smol = t[0];
+    for(int i = 0; i < n; i++)
     {
-        smol.area = 0.5*(t[0].base)*(t[0].altitude);
-       for (int  i = 1; i < n; i++)
-       {
-           if (0.5*((t[i].base)*(t[i].altitude))<smol.area)
-           {
-               smol.area = 0.5 * ( (t[i].base) * (t[i].altitude) );
-           }
-       }
-    }
-    
-    for (int  i = 0; i < n; i++)
-    {
-        if (0.5*(t[i].base)*(t[i].altitude)==smol.area)
+        if(t[i].area<smol.area)
         {
-            smol.base = t[i].base;
-            smol.altitude = t[i].altitude;
+            smol = t[i];
         }
     }
     return (smol);    
@@ -83,11 +83,11 @@ Triangle find_smallest_triangle(int n, Triangle t[n])
 
 void output(int n, Triangle t[n], Triangle smallest)
 {
-    printf("The smallest of the triangles with base and height ");
+    printf("The smallest of the triangles with base and height respectively ");
     for (int  i = 0; i < n; i++)
     {
-        printf("%f , %f, ",t[i].base,t[i].altitude);
+        printf("%.3f , %.3f, ",t[i].base,t[i].altitude);
     }
     printf("\nis ");
-    printf("the triangle with the base %f and altitude %f whose area is %f",smallest.base,smallest.altitude,smallest.area);
+    printf("the triangle with the base %f and altitude %.3f whose area is %.3f",smallest.base,smallest.altitude,smallest.area);
 }
